@@ -70,6 +70,11 @@ class SharedResources:
                 if settings.kms_fallback_master_key
                 else None
             ),
+            fallback_master_key_old_b64=(
+                settings.kms_fallback_master_key_old.get_secret_value()
+                if settings.kms_fallback_master_key_old
+                else None
+            ),
         )
         s3 = S3Client(
             aws_region=settings.aws_region,

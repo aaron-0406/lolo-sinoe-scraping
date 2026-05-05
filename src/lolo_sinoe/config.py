@@ -60,6 +60,15 @@ class Settings(BaseSettings):
             "Usar SOLO en dev — migrar a KMS antes de cliente externo."
         ),
     )
+    kms_fallback_master_key_old: SecretStr | None = Field(
+        default=None,
+        description=(
+            "Opcional. Key vieja durante una rotación de fallback. Si está "
+            "seteada, el scraper intenta descifrar primero con la current "
+            "y si falla cae a esta. Una vez corrido el endpoint de rotate "
+            "del backend, esta variable se puede borrar del env."
+        ),
+    )
     aws_region: str = Field(default="us-west-2")
     aws_profile: str | None = Field(
         default=None,
