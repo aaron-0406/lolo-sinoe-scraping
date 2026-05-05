@@ -10,12 +10,7 @@ import typer
 
 from lolo_sinoe.auth import SinoeCredentials, login
 from lolo_sinoe.browser import launch_browser
-from lolo_sinoe.captcha import (
-    CapSolverSolver,
-    CaptchaSolver,
-    FallbackSolver,
-    TwoCaptchaSolver,
-)
+from lolo_sinoe.captcha import build_captcha_solver
 from lolo_sinoe.config import Settings, get_settings
 from lolo_sinoe.errors import (
     CaptchaUnsolvable,
@@ -36,40 +31,6 @@ def _bootstrap() -> Settings:
     return settings
 
 
-def _build_captcha_solver(settings: Settings) -> CaptchaSolver:
-    """Build the CAPTCHA solver chain from settings.
-
-    Honors `captcha_provider_order` (csv) and only includes providers
-    whose API key is configured. If only one is configured, returns it
-    directly without the FallbackSolver wrapper.
-    """
-    requested = [p.strip().lower() for p in settings.captcha_provider_order.split(",") if p.strip()]
-    available: list[CaptchaSolver] = []
-    for provider in requested:
-        if provider == "2captcha" and settings.twocaptcha_api_key is not None:
-            available.append(
-                TwoCaptchaSolver(
-                    api_key=settings.twocaptcha_api_key.get_secret_value(),
-                    max_retries=settings.captcha_max_retries,
-                )
-            )
-        elif provider == "capsolver" and settings.capsolver_api_key is not None:
-            available.append(
-                CapSolverSolver(
-                    api_key=settings.capsolver_api_key.get_secret_value(),
-                    max_retries=settings.captcha_max_retries,
-                )
-            )
-    if not available:
-        raise RuntimeError(
-            "No CAPTCHA provider configured. Set SINOE_TWOCAPTCHA_API_KEY and/or "
-            "SINOE_CAPSOLVER_API_KEY, and ensure SINOE_CAPTCHA_PROVIDER_ORDER includes them."
-        )
-    if len(available) == 1:
-        return available[0]
-    return FallbackSolver(available)
-
-
 @app.command(name="login")
 def login_cmd(
     save_session: Path | None = typer.Option(
@@ -86,11 +47,9 @@ def login_cmd(
     use_headless = settings.headless if headless is None else headless
 
     async def _run() -> int:
-        creds = SinoeCredentials(
-            casilla=settings.casilla,
-            password=settings.password.get_secret_value(),
-        )
-        solver = _build_captcha_solver(settings)
+        casilla, password = settings.require_legacy_credentials()
+        creds = SinoeCredentials(casilla=casilla, password=password)
+        solver = build_captcha_solver(settings)
         log.info("captcha_solver_chain", provider=solver.name)
 
         async with launch_browser(
@@ -144,9 +103,7 @@ def login_cmd(
 def explore(
     max_pages: int = typer.Option(50, help="Max URLs to visit."),
     max_depth: int = typer.Option(3, help="Max BFS depth from landing page."),
-    output_dir: Path = typer.Option(
-        Path("exploration_output"), help="Where to write artefacts."
-    ),
+    output_dir: Path = typer.Option(Path("exploration_output"), help="Where to write artefacts."),
     headless: bool | None = typer.Option(None, "--headless/--no-headless"),
 ) -> None:
     """Login and crawl the SINOE authenticated area (read-only)."""
@@ -156,11 +113,9 @@ def explore(
     use_headless = settings.headless if headless is None else headless
 
     async def _run() -> int:
-        creds = SinoeCredentials(
-            casilla=settings.casilla,
-            password=settings.password.get_secret_value(),
-        )
-        solver = _build_captcha_solver(settings)
+        casilla, password = settings.require_legacy_credentials()
+        creds = SinoeCredentials(casilla=casilla, password=password)
+        solver = build_captcha_solver(settings)
         log.info("captcha_solver_chain", provider=solver.name)
 
         async with launch_browser(

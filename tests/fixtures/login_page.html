@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link type="text/css" rel="stylesheet" href="/sinoe/javax.faces.resource/theme.css.xhtml?ln=primefaces-sinoe-theme"><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-W1Q6V1HBYF&amp;cx=c&amp;_slc=1"></script><script async="" src="//www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/sinoe/javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces&amp;v=4.0"></script><script type="text/javascript" src="/sinoe/javax.faces.resource/primefaces.js.xhtml?ln=primefaces&amp;v=4.0"></script><link type="text/css" rel="stylesheet" href="/sinoe/javax.faces.resource/primefaces.css.xhtml?ln=primefaces&amp;v=4.0"><script type="text/javascript" src="/sinoe/javax.faces.resource/jquery/jquery-plugins.js.xhtml?ln=primefaces&amp;v=4.0"></script>
+    <title>SINOE - Sistema de Notificaciones Electrónicas</title>
+	
+	<link rel="icon" href="/sinoe/resources/images/logo-icon-sinoe.png">
+
+	<link href="/sinoe/resources/css/sinoe.css" rel="stylesheet" type="text/css">
+	<link href="/sinoe/resources/css/main.css" rel="stylesheet" type="text/css">
+	<link href="/sinoe/resources/css/bootstrap.css" rel="stylesheet" type="text/css">
+
+
+	<script src="/sinoe/resources/js/bootstrap.js"></script>
+    <script type="text/javascript">
+   	if(history.forward(1)){
+   	    location.replace( history.forward(1) );
+   	}
+    
+	$(function () {
+
+		if( navigator.appVersion.indexOf("MSIE 7.") != -1 ){
+			alert('Se ha detectado que su navegador es “Internet Explorer v. 7”, por favor ACTUALIZAR su navegador a IExplorer 8 o versiones superiores para poder utilizar el sistema SINOE.');
+			javascript:location.reload();
+		}
+
+
+// 		$('#solicitar').popover();
+// 		$('#qusuario').popover();
+// 		$('#qpassword').popover();
+	});
+	</script>
+
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-47013024-6', 'auto');
+  ga('send', 'pageview');
+
+</script><style></style><style>.tooltip-btn[_ngcontent-oja-c0] {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .tooltip[_ngcontent-oja-c0] {
+    position: absolute;
+    display: none;
+    bottom : 110%;
+    right: -100%;
+    margin: 8px;
+    background-color: #f5f5f5;
+    -webkit-box-shadow: 0 8px 17px 2px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%), 0 5px 5px -3px rgb(0 0 0 / 20%);
+    box-shadow: 0 8px 17px 2px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%), 0 5px 5px -3px rgb(0 0 0 / 20%);
+    font-size: 10px;
+    color: #333;
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  .tooltip[_ngcontent-oja-c0]:after {
+    position: absolute;
+    content: "";
+    top: 100%;
+    right: 10%;
+    border-top: 5px solid #f5f5f5;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid transparent;
+  }
+
+  .tooltip-btn[_ngcontent-oja-c0]:hover    > .tooltip[_ngcontent-oja-c0] {
+    display: block;
+  }
+  .tooltip-title[_ngcontent-oja-c0]{
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    background-color: #e0e0e0;
+    padding: 8px 8px 8px 8px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .tooltip-body[_ngcontent-oja-c0]{
+    font-size: 14px;
+    background-color: #f5f5f5;
+    padding: 8px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: block;
+  }</style></head><body class="modal-open INDpositionLeft INDDesktop INDChrome INDlangdirLTR INDnoTooltip" data-ind-ratio="100" data-indpositionleft="INDpositionLeft" data-inddesktop="INDDesktop" data-indchrome="INDChrome" data-indlangdirltr="INDlangdirLTR" data-indnotooltip="INDnoTooltip" style=""><div id="INDshadowRootWrap" lang="es" style="display : block !important;" dir="ltr" data-ind-version="5.2.6"><div id="INDShadowRootHost" style="display: block !important;"></div></div>
+		<div class="main">
+			<div id="header">
+				<div class="logopj">
+					<h1>
+						<img src="/sinoe/resources/images/logo-pj.png" width="364" height="74">
+					</h1>
+				</div>
+
+
+				<div class="logosinoe">
+     				<h1>
+     					<img src="/sinoe/resources/images/logo-sinoe-sinVersion.png" width="300" height="55">
+     				</h1>
+       				<div class="txtversion">Sistema de Notificaciones Electrónicas V.2.3.0</div>
+    			</div>
+
+
+			</div>
+
+			<div class="clr"></div>
+			<div id="content">
+				<div id="login">
+					
+					<div class="descripcion">
+						<p>Bienvenidos al sistema de <strong style="color: #900; font-size: 16px;">SERVICIOS EN LÍNEA</strong> mediante la
+							cual usted podrá realizar diversos procedimientos judiciales en
+							tiempo real, así reducir el tiempo y mejorar la seguridad en todo
+							el proceso.</p>
+						<div id="clr2"></div>
+						<p>Los servicios en línea que ofrece el Poder Judicial son los siguientes:</p>
+						<div id="clr2"></div>
+
+						<table width="75%" border="0" cellspacing="0" align="center" cellpadding="0" class="spacetable">
+							<tbody><tr>
+								<td width="30%"><img src="/sinoe/resources/images/login-logo-sinoe.png" width="83" height="26"></td>
+								<td>Sistema de Notificaciones Electrónica</td>
+							</tr>
+							<tr>
+								<td><img src="/sinoe/resources/images/logo-mpe2.png" width="83" height="26"></td>
+								<td>Sistema de Mesa de Partes Electrónica</td>
+							</tr>
+							
+						</tbody></table>
+					</div>
+
+
+
+
+					<div class="formulario">
+<form id="frmLogin" name="frmLogin" method="post" action="/sinoe/login.xhtml" class="form-inline" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="frmLogin" value="frmLogin">
+
+							<div class="cuadro bradio">
+
+									<app-root _nghost-oja-c0="" ng-version="13.0.3"><div _ngcontent-oja-c0=""><div _ngcontent-oja-c0=""><div _ngcontent-oja-c0="" class="form-group"><div _ngcontent-oja-c0="" class="input-group"><div _ngcontent-oja-c0="" class="input-group-addon"><img _ngcontent-oja-c0="" src="/sinoe/resources/images/usuario.png" width="20" height="20"></div><input _ngcontent-oja-c0="" name="P5qKey@kVBiG2Yn2dPEwG3&amp;@n" type="text" placeholder="Usuario" size="25" tabindex="1" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all form-control"><div _ngcontent-oja-c0="" class="input-group-addon tooltip-btn"><img _ngcontent-oja-c0="" src="/sinoe/resources/images/question.png" width="18" height="18"><span _ngcontent-oja-c0="" class="tooltip"><span _ngcontent-oja-c0="" class="tooltip-title"> Usuario </span><span _ngcontent-oja-c0="" class="tooltip-body"> Usar su Número de Casilla Electrónica </span></span></div></div></div><div _ngcontent-oja-c0="" id="clr2"></div><div _ngcontent-oja-c0="" class="form-group"><div _ngcontent-oja-c0="" class="input-group"><div _ngcontent-oja-c0="" class="input-group-addon"><img _ngcontent-oja-c0="" src="/sinoe/resources/images/password.png" width="20" height="20"></div><input _ngcontent-oja-c0="" name="SeW4TqEmrF2c%sN1p5T9%Ng9r" type="password" placeholder="Contraseña" size="25" tabindex="2" class="ui-inputfield ui-password ui-widget ui-state-default ui-corner-all form-control"><div _ngcontent-oja-c0="" class="input-group-addon tooltip-btn"><img _ngcontent-oja-c0="" src="/sinoe/resources/images/question.png" width="18" height="18"><span _ngcontent-oja-c0="" class="tooltip"><span _ngcontent-oja-c0="" class="tooltip-title"> Contraseña </span><span _ngcontent-oja-c0="" class="tooltip-body"> Tener en cuenta el uso de las MAYÚSCULAS y minúsculas </span></span></div></div></div></div></div></app-root>
+									<script src="/sinoe/resources/js/runtime.61ece7d408c94519.js" type="module"></script>
+									<script src="/sinoe/resources/js/polyfills.e195f10a68af89c2.js" type="module"></script>
+									<script src="/sinoe/resources/js/main.f4ad18f895f9ca5f.js" type="module"></script>
+									
+									<div><a id="frmLogin:recuperar" href="#" class="ui-commandlink ui-widget" aria-label="Recuperar datos de casilla" onclick="PrimeFaces.addSubmitParam('frmLogin',{'frmLogin:recuperar':'frmLogin:recuperar'}).submit('frmLogin');return false;" rel="popover" style="color:#d9534f;font-weight: bold;" title="Recuperar datos de casilla">¿Olvidó sus Datos de Casilla?</a>
+									</div>
+									<div id="clr2"></div>
+									<div class="form-group">
+										<div class="input-group"><input type="hidden" name="frmLogin:j_idt12">
+
+											<div class="input-group-addon" style="padding: 1px 1px 1px 1px;"><div id="frmLogin:ImagenGroup1" class="ui-outputpanel ui-widget"><img id="frmLogin:imgCapcha" src="/sinoe/javax.faces.resource/dynamiccontent.properties.xhtml?ln=primefaces&amp;pfdrid=lMu%2BrH6dscILeUs4IFUU9%2FAo4uwWBQ5GOaeMN4f%2BEnA7TmLKHEbL%2FQ%3D%3D&amp;pfdrid_c=false" alt="" width="70" height="32" title="Imagen captcha" style="margin-bottom:0px !important;"></div>
+											</div>
+											<div class="input-group-addon" style="padding: 0px 0px 0px 0px;"><input id="frmLogin:captcha" name="frmLogin:captcha" type="text" maxlength="5" placeholder="Ingrese Captcha" size="20" tabindex="3" title="Ingrese Captcha" onkeypress="if (event.keyCode == 13) { document.getElementById('frmLogin:btnIngresar').click(); return false; }" style="text-transform:uppercase;" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all form-control" aria-disabled="false" aria-readonly="false" aria-multiline="false">
+											</div>
+											<div class="input-group-addon" style="padding: 0px 0px 0px 0px;"><button id="frmLogin:j_idt16" name="frmLogin:j_idt16" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" style="height: 32px !important;width: 40px !important;" title="Recargar captcha" type="submit" role="button" aria-disabled="false"><span class="ui-button-icon-left ui-icon ui-c ui-icon-refresh"></span><span class="ui-button-text ui-c">ui-button</span></button>
+											</div>
+
+
+										</div>
+									</div>
+
+									<div id="clr2"></div><button id="frmLogin:btnIngresar" name="frmLogin:btnIngresar" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn btn-red" tabindex="4" title="Ingresar" type="submit" role="button" aria-disabled="false"><span class="ui-button-text ui-c">Ingresar</span></button>
+
+								<div id="clr2"></div>
+								<div>
+									<a style="cursor:pointer;" id="solicitar" rel="popover" data-placement="top" data-content="Solicite su Registro al Sistema de Notificaciones Electrónicas, así podrá recibir de manera oportuna las notificaciones emitidas por el Poder Judicial." data-original-title="¿Nuevo en SINOE?"><img id="frmLogin:j_idt20" src="/sinoe/resources/images/information.png?pfdrid_c=true" alt="" width="20" height="20"></a><a id="frmLogin:solicitar" href="#" class="ui-commandlink ui-widget" aria-label="Solicitar registro de Casilla" onclick="PrimeFaces.addSubmitParam('frmLogin',{'frmLogin:solicitar':'frmLogin:solicitar'}).submit('frmLogin');return false;" rel="popover" tabindex="5" title="Solicitar registro de Casilla">SOLICITAR REGISTRO DE CASILLA</a>
+
+								</div>
+
+
+
+							</div>
+							<div class="tutorial">
+								<div style="float: left; margin-right: 40px;">
+									<img src="/sinoe/resources/images/videotutorial.png" width="20" height="20" class="alinear">
+									<a href="http://casillas.pj.gob.pe/doc/videosinoe/sinoetutorial.html" tabindex="6" title="Ver video de instructivo" target="_blank">INSTRUCTIVO</a>
+								</div>
+								<div>
+									<img src="/sinoe/resources/images/instructivo.png" width="17" height="20" class="alinear">
+									<a href="http://casillas.pj.gob.pe/doc/Manual_usuario.pdf" tabindex="7" title="Leer instructivo" target="_blank">INSTRUCTIVO</a>
+								</div>
+								<div style="margin-top:10px;">
+									<img src="/sinoe/resources/images/videotutorial.png" width="20" height="20" class="alinear">
+									<a href="http://casillas.pj.gob.pe/doc/videosinoe/sinoetutorial.html" tabindex="8" title="Ver video promocional" target="_blank">VIDEO PROMOCIONAL</a>
+								</div>
+							</div>
+							
+							<div class="div-sinoe-info"><input type="text" name="infouser" style="display: none;"></div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="H4sIAAAAAAAAAI1Tv2sUQRSeu8vFHwnhTEAQPLjEWAjemr0kXjSKSTAxq0kMRoNooS+7k90NszuTmdm7PaOBFCpoY6GFhShoGf8IsbATTKmNaCEWNiKInTN7eheDoAM7vGG+/d733vdm/QvKMsHRriWogBFJnxiTILxpYNltb1+83H31TQalJ9BOQsGZAFtSbqEd0uNYeJQ4MTsxgvRqr25Xe059GYn22jQwRBQai2BjYZyshRD49qgtfRoKlaurmWuUc6hN+ULGaxv5h6/gUQalLNQi/Gs4Zpq42qL3WKLcIg+mqOuHR5eu+I40D0eK6PJUQkUgdI2zC0vYlsP3Xl98nBMHSFr9pRmy0TJaRa0qSjWitBJR/FOk3gmWwsDEOA/uNJYedcZjpgoVSjaqr1S7YuVoj84aa+hWHHR+6x37uCzTCa6rgWsint68M/f10saxRJ/S0UO5awAD28N/I7QCRqwf8I6Y17t1cl1CW3U/6t63UrCBSduD6THDxSHmwGciXAErAHUs3EBoa4fmJPdDd/j5xvynz/mVU787lJIoXxdabwWu4FAadbvGdcxYXD2NJg8R3X4j9mRACiPmYPlgabBcgASnLdQajvf8U1dPLHQRHdX+/ymioyl/nvpOYqEeM6REMbUkyup5MJveNqKsvm+cMqvK881lKv8ZDXWpF6x5H1fPUSp7ZzllmMvaGVwTvzxHnYmXm4SMh1Gw+VKJaCUgpOU0HlKCs0KJXcw7Pzx59n3t9lBaj3a2AiTCii/XxM1EwQLmt9Yf5Nvuv7/bGFxF21sulxdKpl0ulgb6FosDJdsswkAfLvbbQ0fAcUqOOeTEPwFBPdubxAMAAA==" autocomplete="off">
+</form>
+					</div>
+				</div>
+			</div>
+
+			<div id="footer">
+				<div class="cenefa"></div>
+				<div class="datos">
+					Av. Paseo de la República S/N Palacio de Justicia, Cercado, Lima -
+					Perú<br> Copyright © - 2015 Todos los derechos reservados<br>
+					Recomendado para Chrome, Mozilla Firefox, IExplorer 8 o versiones
+					superiores<br> Res. mínima 1024 x 768
+				</div>
+			</div>
+		</div><span id="listaMensajes"></span>
+	
+	
+	<div class="modal fade in" id="dynamicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="false" style="display: block;"><div class="modal-backdrop fade in" style="height: 768px;"></div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                    	<img src="/sinoe/resources/images/mensaje-info/logo-comunicado.png" onerror="this.style.display='none'" width="100%">
+                    	<div style="padding: 8px 32px;text-align: justify;">
+	                    	<h4 align="center" style="color: #900; font-weight: bold;">COMUNICADO
+							</h4>
+							<div><p>A partir del 26 de mayo de 2025, quedan desactivados los correos electrónicos institucionales para recibir escritos y/o recursos dirigidos a la Corte Suprema de Justicia de la República.<br> <br>La presentación de escritos a los recursos y/o expedientes existentes en los órganos jurisdiccionales de la Corte Suprema de Justicia sólo se hará por la Mesa de Partes Electrónica (MPE).<br> <br>Conoce los correos electrónicos que serán desactivados, haciendo <a style="color: #900; font-weight: bold;" href="https://eje.pe/wps/wcm/connect/e60be080443eaacf9856d8e5406a4592/Comunicado+2_correos+desactivados_MPE+Suprema.pdf?MOD=AJPERES&amp;CACHEID=e60be080443eaacf9856d8e5406a4592" target="_blank">clic aqui</a>.</p>
+							</div>
+                    	</div>
+                    	<input type="text" id="txt-show-modal" value="S" style="display: none;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+	  	const _0xaa762c=_0x4197;(function(_0x3ad32b,_0x52373f){const _0x14de6c=_0x4197,_0x1960d2=_0x3ad32b();while(!![]){try{const _0x14f036=-parseInt(_0x14de6c(0xcf))/0x1*(parseInt(_0x14de6c(0xd4))/0x2)+parseInt(_0x14de6c(0xd0))/0x3+parseInt(_0x14de6c(0xca))/0x4+parseInt(_0x14de6c(0xd1))/0x5+-parseInt(_0x14de6c(0xcd))/0x6*(-parseInt(_0x14de6c(0xd8))/0x7)+-parseInt(_0x14de6c(0xd7))/0x8+parseInt(_0x14de6c(0xcb))/0x9*(-parseInt(_0x14de6c(0xd2))/0xa);if(_0x14f036===_0x52373f)break;else _0x1960d2['push'](_0x1960d2['shift']());}catch(_0xd47182){_0x1960d2['push'](_0x1960d2['shift']());}}}(_0x4d82,0xccb88));let s=document[_0xaa762c(0xd6)](_0xaa762c(0xce));s[_0xaa762c(0xcc)]=_0xaa762c(0xd5),document[_0xaa762c(0xd3)]['appendChild'](s);function _0x4197(_0x46bf49,_0x1f4931){const _0x4d82bd=_0x4d82();return _0x4197=function(_0x419782,_0x2440c3){_0x419782=_0x419782-0xca;let _0x3a560a=_0x4d82bd[_0x419782];return _0x3a560a;},_0x4197(_0x46bf49,_0x1f4931);}function _0x4d82(){const _0x581a91=['987966xrQqor','/sinoe/resources/js/utils.min.hash.js','createElement','1692624jlpdAH','147xNiutJ','937136auPqrJ','8199tqfTOp','src','124218vdvOul','script','2TfTwdz','1921074qZKMmj','4413170PsKciZ','1690rtNxld','body'];_0x4d82=function(){return _0x581a91;};return _0x4d82();}
+	</script><script src="/sinoe/resources/js/utils.min.hash.js"></script>
+		
+	<script>
+	
+    function createAndShowModal() {
+        if($("#txt-show-modal").val()==="S"){
+        	$('#dynamicModal').modal('show');
+
+            $('#dynamicModal').on('hidden.bs.modal', function () {
+                $(this).remove();
+            });
+        }
+    }
+    
+    $(document).ready(createAndShowModal);
+	</script>
+        <script type="text/javascript">
+            //<![CDATA[
+            window.interdeal = {
+                get sitekey() { return "22cebc5386b0fb31d018423775d07280" },
+                get domains() { return { "js": "https://cdn.equalweb.com/", "acc": "https://access.equalweb.com/" } },
+                "Position": "left",
+                "Menulang": "ES",
+                "draggable": true,
+                "btnStyle": {
+                    "vPosition": ["50%", "80%"],
+                    "margin": ["0", "0"],
+                    "scale": ["0.5", "0.5"],
+                    "color": { "main": "#e6051f", "second": "#ffffff" },
+                    "icon": { "outline": false, "outlineColor": "#ffffff", "type": 13, "shape": "circle" }
+                },
+            };
+            (function (doc, head, body) {
+                var coreCall = doc.createElement('script');
+                coreCall.src = interdeal.domains.js + 'core/5.2.6/accessibility.js';
+                coreCall.defer = true;
+                coreCall.integrity = 'sha512-Eyej8seFY4JUGJThUYSWV/UwEEC5GCbBnzUg8lfmFjsZd4+iXGFALUoqt0MNUQXfj6/blmksYQ2yCXivmTWcgQ==';
+                coreCall.crossOrigin = 'anonymous';
+                coreCall.setAttribute('data-cfasync', true);
+                body ? body.appendChild(coreCall) : head.appendChild(coreCall);
+            })(document, document.head, document.body);
+            //]]>
+        </script><script src="https://cdn.equalweb.com/core/5.2.6/accessibility.js" defer="" integrity="sha512-Eyej8seFY4JUGJThUYSWV/UwEEC5GCbBnzUg8lfmFjsZd4+iXGFALUoqt0MNUQXfj6/blmksYQ2yCXivmTWcgQ==" crossorigin="anonymous" data-cfasync="true"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            function removePrimefacesRole() {
+                $('input.ui-inputtext[role="textbox"]').removeAttr('role');
+            }
+            function initRoleObserver() {
+                var observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (m) {
+                        if (m.type === 'attributes' && m.attributeName === 'role') {
+                            if (m.target.tagName === 'INPUT' && m.target.getAttribute('role') === 'textbox') {
+                                m.target.removeAttribute('role');
+                            }
+                        }
+                    });
+                });
+                observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['role'] });
+            }
+            $(document).ready(function () {
+                removePrimefacesRole();
+                initRoleObserver();
+            });
+            $(document).ajaxComplete(function () {
+                setTimeout(removePrimefacesRole, 50);
+            });
+            //]]>
+        </script>
+
+<div id="textarea_simulator" style="position: absolute; top: 0px; left: 0px; visibility: hidden;"></div><div id="listaMensajes_container" class="ui-growl ui-widget" style="z-index: 1001;"></div><iframe title="IND - Default Props" id="INDdefaultPropIframe" sandbox="" style="display: none;"></iframe></body></html>

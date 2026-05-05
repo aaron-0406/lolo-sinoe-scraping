@@ -64,3 +64,4 @@ htmlcov/
 # Logs
 *.log
 logs/
+discovery_output/

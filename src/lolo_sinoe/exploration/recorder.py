@@ -106,7 +106,7 @@ async def record_page(
     try:
         await page.screenshot(path=str(screenshot_path), full_page=True)
     except Exception as e:
-        logger.warn("screenshot_failed", url=url, error=str(e))
+        logger.warning("screenshot_failed", url=url, error=str(e))
 
     if network_events is not None:
         network_path.write_text(
@@ -163,9 +163,7 @@ async def _extract_forms(page: Page) -> list[FormInfo]:
         }))
         """
     )
-    return [
-        FormInfo(action=r["action"], method=r["method"], field_names=r["fields"]) for r in raw
-    ]
+    return [FormInfo(action=r["action"], method=r["method"], field_names=r["fields"]) for r in raw]
 
 
 async def _extract_links(page: Page, *, base_url: str) -> list[LinkInfo]:
@@ -207,9 +205,7 @@ async def _extract_downloadables(page: Page) -> list[DownloadInfo]:
             }))
         """
     )
-    return [
-        DownloadInfo(url=r["url"], text=r["text"], inferred_kind=r["kind"]) for r in raw
-    ]
+    return [DownloadInfo(url=r["url"], text=r["text"], inferred_kind=r["kind"]) for r in raw]
 
 
 async def _extract_tables(page: Page) -> list[TableInfo]:

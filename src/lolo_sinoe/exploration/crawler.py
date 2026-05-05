@@ -117,7 +117,7 @@ async def crawl(
             try:
                 await page.goto(url, wait_until="networkidle")
             except Exception as e:
-                logger.warn("crawl_goto_failed", url=url, error=str(e))
+                logger.warning("crawl_goto_failed", url=url, error=str(e))
                 result.skipped.append((url, f"goto_failed:{e}"))
                 continue
 

@@ -3,8 +3,15 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
+from typing import Any, cast
 
-from playwright.async_api import Browser, BrowserContext, Page, async_playwright
+from playwright.async_api import (
+    Browser,
+    BrowserContext,
+    Page,
+    StorageState,
+    async_playwright,
+)
 
 from lolo_sinoe.browser.stealth_args import STEALTH_ARGS
 from lolo_sinoe.logging import get_logger
@@ -19,12 +26,21 @@ class BrowserHandles:
     page: Page
 
 
+# Defaults compartidos entre contexts — se reusan con o sin storage_state
+# para evitar duplicación.
+_CONTEXT_DEFAULTS: dict[str, Any] = {
+    "viewport": {"width": 1366, "height": 768},
+    "locale": "es-PE",
+    "timezone_id": "America/Lima",
+}
+
+
 @asynccontextmanager
 async def launch_browser(
     *,
     headless: bool = False,
     nav_timeout_ms: int = 30_000,
-    storage_state: str | None = None,
+    storage_state: str | dict[str, Any] | None = None,
 ) -> AsyncIterator[BrowserHandles]:
     """Launch a Chromium browser with a fresh context and one page.
 
@@ -33,26 +49,24 @@ async def launch_browser(
     Args:
         headless: Run without UI. Default False to make dev/debugging easier.
         nav_timeout_ms: Default navigation timeout for the page.
-        storage_state: Optional path to a saved storage state JSON to reuse cookies.
+        storage_state: Optional storage state to reuse cookies — accepts a path
+            (str) for CLI dev, or a dict (Playwright `StorageState`) for the
+            multitenant worker (cached blob descifrado en memoria, nunca toca disco).
     """
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch(
-            headless=headless,
-            args=STEALTH_ARGS,
-        )
+        browser = await pw.chromium.launch(headless=headless, args=STEALTH_ARGS)
+
+        context_kwargs: dict[str, Any] = dict(_CONTEXT_DEFAULTS)
         if storage_state is not None:
-            context = await browser.new_context(
-                viewport={"width": 1366, "height": 768},
-                locale="es-PE",
-                timezone_id="America/Lima",
-                storage_state=storage_state,
+            # Playwright acepta str (path) o StorageState (dict). El cast es
+            # seguro: el dict viene de `BrowserContext.storage_state()`
+            # cifrado/descifrado en memoria sin transformaciones.
+            context_kwargs["storage_state"] = (
+                cast(StorageState, storage_state)
+                if isinstance(storage_state, dict)
+                else storage_state
             )
-        else:
-            context = await browser.new_context(
-                viewport={"width": 1366, "height": 768},
-                locale="es-PE",
-                timezone_id="America/Lima",
-            )
+        context = await browser.new_context(**context_kwargs)
         context.set_default_navigation_timeout(nav_timeout_ms)
         context.set_default_timeout(nav_timeout_ms)
 

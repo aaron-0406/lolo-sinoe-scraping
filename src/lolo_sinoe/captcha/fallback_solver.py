@@ -26,7 +26,7 @@ class FallbackSolver:
                 logger.info("captcha_provider_attempt", provider=solver.name)
                 return await solver.solve(image_bytes)
             except CaptchaUnsolvable as e:
-                logger.warn(
+                logger.warning(
                     "captcha_provider_failed",
                     provider=solver.name,
                     error=str(e),

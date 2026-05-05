@@ -1,0 +1,28 @@
+# docker-compose para dev local.
+# Levanta SOLO Redis — el scraper Python se corre nativo (no en docker)
+# para que el dev tenga acceso directo a logs/breakpoints/etc.
+#
+# Mismo patrón que lolo-cej-scraping/docker-compose.yml.
+#
+# Uso:
+#   docker-compose up -d redis
+#   uv run python -m lolo_sinoe.api  # scraper en host
+
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - sinoe-redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  sinoe-redis-data:

@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "app6~PisYRYzt-HXvQeY5YZDSYrvo.jvmr-ssinoew4",
+      "domain": "casillas.pj.gob.pe",
+      "path": "/sinoe",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.737782192.1777585222",
+      "domain": ".pj.gob.pe",
+      "path": "/",
+      "expires": 1812145258.081311,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.1530812759.1777585222",
+      "domain": ".pj.gob.pe",
+      "path": "/",
+      "expires": 1777671658,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".pj.gob.pe",
+      "path": "/",
+      "expires": 1777585281,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sinoe_info",
+      "value": "K0ZpJCTHBfNIw06UWdJgEa4Zc4FuKRxPWdqOlVxgPssUr4EbXI57dcQZmb6pyEyKh4ufBCrutAT7r%2FE3jahq85bqSf7DjIZw0KzvF%2BHjrXQ%3D",
+      "domain": "casillas.pj.gob.pe",
+      "path": "/",
+      "expires": 1777588860.098846,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_W1Q6V1HBYF",
+      "value": "GS2.3.s1777585222$o1$g1$t1777585258$j24$l0$h0",
+      "domain": ".pj.gob.pe",
+      "path": "/",
+      "expires": 1812145258.22507,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sinoe_info_sig",
+      "value": "kJwQGEw9Cg6sKW89-ig0OHhfLbEkRJ-qZ1qXtfhGFxk",
+      "domain": "casillas.pj.gob.pe",
+      "path": "/",
+      "expires": 1777588860.098969,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    }
+  ],
+  "origins": []
+}

@@ -59,9 +59,7 @@ def generate_report(result: CrawlResult, *, output_path: Path) -> Path:
     lines.append("|---|---|---|---|")
     for v in result.visited:
         for d in v.downloadables_found:
-            lines.append(
-                f"| `{v.url[:60]}` | `{d.url[:80]}` | {d.inferred_kind} | {d.text[:60]} |"
-            )
+            lines.append(f"| `{v.url[:60]}` | `{d.url[:80]}` | {d.inferred_kind} | {d.text[:60]} |")
     lines.append("")
 
     lines.append("## 5. Componentes JSF detectados (top 30 por página)")
@@ -88,8 +86,7 @@ def generate_report(result: CrawlResult, *, output_path: Path) -> Path:
     lines.append("## 7. Oportunidades de implementación (a completar manualmente)")
     lines.append("")
     lines.append(
-        "Esta sección requiere análisis humano sobre el output crudo. "
-        "Sugerencias de qué buscar:"
+        "Esta sección requiere análisis humano sobre el output crudo. Sugerencias de qué buscar:"
     )
     lines.append("")
     lines.append("- ¿Hay listado de bandeja con paginación scrapeable?")
