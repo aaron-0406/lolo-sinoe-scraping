@@ -21,7 +21,7 @@ class SyncLogRepository:
         self,
         *,
         account_id: int,
-        customer_has_bank_id: int,
+        customer_id: int,
         trigger_kind: str,
         worker_id: str | None = None,
     ) -> int:
@@ -30,7 +30,7 @@ class SyncLogRepository:
         with self._session_factory() as session:
             log = SinoeSyncLog(
                 sinoe_account_id=account_id,
-                customer_has_bank_id=customer_has_bank_id,
+                customer_id=customer_id,
                 started_at=datetime.utcnow(),
                 status="running",
                 trigger_kind=trigger_kind,

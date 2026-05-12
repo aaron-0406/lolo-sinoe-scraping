@@ -35,8 +35,10 @@ class SinoeAccount(Base):
     __tablename__ = "SINOE_ACCOUNT"
 
     id: Mapped[int] = mapped_column("id_sinoe_account", Integer, primary_key=True)
-    customer_has_bank_id: Mapped[int] = mapped_column(
-        "customer_has_bank_id_sinoe_account", Integer, nullable=False
+    # Customer-scoped post-migration backend 20260512100000 — la casilla
+    # SINOE pertenece al estudio, no a una cartera.
+    customer_id: Mapped[int] = mapped_column(
+        "customer_id", Integer, nullable=False
     )
     customer_user_id: Mapped[int | None] = mapped_column(
         "customer_user_id_sinoe_account", Integer, nullable=True
@@ -98,8 +100,8 @@ class SinoeNotification(Base):
         ForeignKey("SINOE_ACCOUNT.id_sinoe_account"),
         nullable=False,
     )
-    customer_has_bank_id: Mapped[int] = mapped_column(
-        "customer_has_bank_id_sinoe_notification", Integer, nullable=False
+    customer_id: Mapped[int] = mapped_column(
+        "customer_id", Integer, nullable=False
     )
     judicial_case_file_id: Mapped[int | None] = mapped_column(
         "judicial_case_file_id_sinoe_notification", Integer, nullable=True
@@ -139,7 +141,7 @@ class SinoeNotificationAttachment(Base):
     sinoe_notification_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("SINOE_NOTIFICATION.id_sinoe_notification"), nullable=False
     )
-    customer_has_bank_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    customer_id: Mapped[int] = mapped_column(Integer, nullable=False)
     tipo: Mapped[str] = mapped_column(
         MysqlEnum("cedula", "resolucion", "anexo", "escrito", "otro"), nullable=False
     )
@@ -162,7 +164,7 @@ class SinoeSyncLog(Base):
     sinoe_account_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("SINOE_ACCOUNT.id_sinoe_account"), nullable=False
     )
-    customer_has_bank_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    customer_id: Mapped[int] = mapped_column(Integer, nullable=False)
     started_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     ended_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     status: Mapped[str] = mapped_column(
@@ -199,7 +201,7 @@ class SinoeDeadlineAlert(Base):
     sinoe_notification_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("SINOE_NOTIFICATION.id_sinoe_notification"), nullable=False
     )
-    customer_has_bank_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    customer_id: Mapped[int] = mapped_column(Integer, nullable=False)
     alert_type: Mapped[str] = mapped_column(
         MysqlEnum(
             "new_notification",

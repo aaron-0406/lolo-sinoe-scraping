@@ -96,13 +96,12 @@ class SyncContext:
     """Datos por sync que el motor necesita para construir paths S3 y
     persistir filas. Lo arma el worker tras cargar la cuenta.
 
-    Para `customer_id` y `client_code` el worker hace un solo lookup en
-    BD (las notifs ya tienen denormalizado `customer_has_bank_id` para
-    queries cross-CHB, pero el path S3 requiere customer + client).
+    Post-migration backend 20260512100000, SINOE es customer-scoped — no
+    arrastramos chb_id porque una cuenta SINOE puede cubrir expedientes
+    en múltiples carteras del mismo estudio.
     """
 
     account_id: int
-    customer_has_bank_id: int
     customer_id: int
     client_code: str
 
@@ -416,7 +415,7 @@ class SyncEngine:
         result = self.notifications.bulk_upsert(
             valid,
             account_id=self.ctx.account_id,
-            customer_has_bank_id=self.ctx.customer_has_bank_id,
+            customer_id=self.ctx.customer_id,
             sync_log_id=self.sync_log_id,
         )
         self.metrics.notifications_new += len(result.new_ids)
@@ -511,7 +510,6 @@ class SyncEngine:
 
         s3_key = self.s3_client.build_attachment_key(
             customer_id=self.ctx.customer_id,
-            chb_id=self.ctx.customer_has_bank_id,
             client_code=self.ctx.client_code,
             case_file_id=case_file_id,
             n_notificacion=row.n_notif,
@@ -529,7 +527,7 @@ class SyncEngine:
 
         self.attachments.create(
             sinoe_notification_id=notification_id,
-            customer_has_bank_id=self.ctx.customer_has_bank_id,
+            customer_id=self.ctx.customer_id,
             tipo=tipo,
             identificacion_anexo=anexo.identificacion,
             numero_paginas=num_paginas if num_paginas is not None else anexo.paginas or None,

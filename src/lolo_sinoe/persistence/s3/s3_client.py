@@ -58,21 +58,21 @@ class S3Client:
     def build_attachment_key(
         *,
         customer_id: int,
-        chb_id: int,
         client_code: str,
         case_file_id: int | None,
         n_notificacion: str,
         tipo: str,
         identificacion_anexo: str,
     ) -> str:
-        """Construye el S3 key completo. Si `case_file_id` es None (notif
-        SINOE no matched a expediente todavía), usa `unmatched/` como
-        sub-prefijo — cuando se matchee después, el archivo NO se mueve
-        (no es necesario; el endpoint de presigned URL lee `s3_key` literal).
+        """Construye el S3 key completo. Post-migration backend 20260512100000,
+        SINOE es customer-scoped — el path NO incluye chb_id (la notif no
+        tiene cartera asociada al insertar). Cuando se matchea con un
+        case-file, el segmento `case-file/{id}` se actualiza pero la raíz
+        permanece bajo `customer_id`.
         """
         case_segment = f"case-file/{case_file_id}" if case_file_id else "unmatched"
         return (
-            f"CHB/{customer_id}/{chb_id}/{client_code}/{case_segment}/"
+            f"CHB/{customer_id}/{client_code}/{case_segment}/"
             f"binnacle/sinoe/{n_notificacion}/{tipo}-{identificacion_anexo}.pdf"
         )
 

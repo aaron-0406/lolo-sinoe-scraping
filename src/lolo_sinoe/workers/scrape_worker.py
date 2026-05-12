@@ -61,21 +61,12 @@ class ScrapeWorker:
             return
 
         # 2. Resolver contexto S3 antes de abrir browser — falla rápido
-        s3_ctx = self._r.accounts.get_s3_path_context(account.customer_has_bank_id)
-        if not s3_ctx:
-            logger.error(
-                "sinoe_worker_no_s3_context",
-                account_id=account_id,
-                chb=account.customer_has_bank_id,
-            )
-            self._r.accounts.mark_sync_complete(account_id, status="partial")
-            return
-        customer_id, client_code = s3_ctx
+        customer_id, client_code = self._r.accounts.get_s3_path_context(account.customer_id)
 
         # 3. SINOE_SYNC_LOG inicial
         sync_log_id = self._r.sync_logs.start(
             account_id=account.id,
-            customer_has_bank_id=account.customer_has_bank_id,
+            customer_id=account.customer_id,
             trigger_kind=trigger_kind,
             worker_id=self._worker_id,
         )
@@ -155,7 +146,6 @@ class ScrapeWorker:
                         s3_client=self._r.s3,
                         ctx=SyncContext(
                             account_id=account.id,
-                            customer_has_bank_id=account.customer_has_bank_id,
                             customer_id=customer_id,
                             client_code=client_code,
                         ),

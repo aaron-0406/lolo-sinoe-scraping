@@ -45,13 +45,20 @@ def _normalize_sql(col: str) -> str:
     )
 
 
+# Matching customer-scoped (post-migration backend 20260512100000): el
+# expediente puede vivir en CUALQUIER cartera del mismo customer — joineamos
+# JCF → CHB para verificar que el CHB del expediente pertenezca al customer
+# de la notif. Resuelve el bug histórico de notifs huérfanas cuando una
+# casilla SINOE recibía expedientes dispersos en varias carteras.
 _MATCH_SINGLE_SQL = text(
     f"""
     UPDATE SINOE_NOTIFICATION sn
     JOIN JUDICIAL_CASE_FILE jcf
       ON {_normalize_sql("sn.n_expediente")}
        = {_normalize_sql("jcf.number_case_file")}
-     AND jcf.customer_has_bank_id = sn.customer_has_bank_id_sinoe_notification
+    JOIN CUSTOMER_HAS_BANK chb
+      ON chb.id_customer_has_bank = jcf.customer_has_bank_id
+     AND chb.customer_id_customer = sn.customer_id
     SET sn.judicial_case_file_id_sinoe_notification = jcf.id_judicial_case_file
     WHERE sn.id_sinoe_notification = :id
       AND sn.judicial_case_file_id_sinoe_notification IS NULL
@@ -64,11 +71,13 @@ _MATCH_BULK_SQL = text(
     JOIN JUDICIAL_CASE_FILE jcf
       ON {_normalize_sql("sn.n_expediente")}
        = {_normalize_sql("jcf.number_case_file")}
-     AND jcf.customer_has_bank_id = sn.customer_has_bank_id_sinoe_notification
+    JOIN CUSTOMER_HAS_BANK chb
+      ON chb.id_customer_has_bank = jcf.customer_has_bank_id
+     AND chb.customer_id_customer = sn.customer_id
     SET sn.judicial_case_file_id_sinoe_notification = jcf.id_judicial_case_file
     WHERE sn.judicial_case_file_id_sinoe_notification IS NULL
       AND sn.deleted_at IS NULL
-      AND sn.customer_has_bank_id_sinoe_notification = :chb_id
+      AND sn.customer_id = :customer_id
     """
 )
 
@@ -196,7 +205,7 @@ class NotificationRepository:
         self,
         *,
         account_id: int,
-        customer_has_bank_id: int,
+        customer_id: int,
         n_notificacion: str,
         n_expediente: str,
         sumilla: str,
@@ -219,7 +228,7 @@ class NotificationRepository:
             notif = self._upsert_one(
                 session,
                 account_id=account_id,
-                customer_has_bank_id=customer_has_bank_id,
+                customer_id=customer_id,
                 n_notificacion=n_notificacion,
                 n_expediente=n_expediente,
                 sumilla=sumilla,
@@ -244,7 +253,7 @@ class NotificationRepository:
         rows: Iterable[NotificationRow],
         *,
         account_id: int,
-        customer_has_bank_id: int,
+        customer_id: int,
         sync_log_id: int,
     ) -> BulkUpsertResult:
         """Upsert de múltiples notifs.
@@ -278,7 +287,7 @@ class NotificationRepository:
                     continue
                 notif = self._build_model(
                     account_id=account_id,
-                    customer_has_bank_id=customer_has_bank_id,
+                    customer_id=customer_id,
                     sync_log_id=sync_log_id,
                     row=r,
                     now=now,
@@ -302,7 +311,7 @@ class NotificationRepository:
             # + cualquier huérfana previa). Idempotente.
             matched = 0
             if new_ids:
-                cursor = session.execute(_MATCH_BULK_SQL, {"chb_id": customer_has_bank_id})
+                cursor = session.execute(_MATCH_BULK_SQL, {"customer_id": customer_id})
                 if isinstance(cursor, CursorResult):
                     matched = cursor.rowcount or 0
                 session.commit()
@@ -332,14 +341,14 @@ class NotificationRepository:
 
     # ── Match con CASE_FILE ─────────────────────────────────────────────
 
-    def match_orphan_notifications(self, chb_id: int) -> int:
+    def match_orphan_notifications(self, customer_id: int) -> int:
         """Re-matchea TODAS las notifs huérfanas del CHB. Idempotente.
 
         Mismo SQL que el backend Node — usar tras `bulk_upsert` o desde un
         endpoint admin para retro-matchear cuando se crea/edita un caseFile.
         """
         with self._session_factory() as session:
-            cursor = session.execute(_MATCH_BULK_SQL, {"chb_id": chb_id})
+            cursor = session.execute(_MATCH_BULK_SQL, {"customer_id": customer_id})
             session.commit()
             if isinstance(cursor, CursorResult):
                 return cursor.rowcount or 0
@@ -351,14 +360,14 @@ class NotificationRepository:
     def _build_model(
         *,
         account_id: int,
-        customer_has_bank_id: int,
+        customer_id: int,
         sync_log_id: int,
         row: NotificationRow,
         now: datetime,
     ) -> SinoeNotification:
         return SinoeNotification(
             sinoe_account_id=account_id,
-            customer_has_bank_id=customer_has_bank_id,
+            customer_id=customer_id,
             n_notificacion=row.n_notificacion,
             sinoe_row_uuid=row.sinoe_row_uuid,
             n_expediente=row.n_expediente,
@@ -384,7 +393,7 @@ class NotificationRepository:
         session: Session,
         *,
         account_id: int,
-        customer_has_bank_id: int,
+        customer_id: int,
         n_notificacion: str,
         n_expediente: str,
         sumilla: str,
@@ -407,7 +416,7 @@ class NotificationRepository:
             return existing
         notif = self._build_model(
             account_id=account_id,
-            customer_has_bank_id=customer_has_bank_id,
+            customer_id=customer_id,
             sync_log_id=sync_log_id,
             row=NotificationRow(
                 n_notificacion=n_notificacion,
@@ -465,7 +474,7 @@ class AttachmentRepository:
         self,
         *,
         sinoe_notification_id: int,
-        customer_has_bank_id: int,
+        customer_id: int,
         tipo: str,
         identificacion_anexo: str,
         numero_paginas: int | None,
@@ -478,7 +487,7 @@ class AttachmentRepository:
         with self._session_factory() as session:
             att = SinoeNotificationAttachment(
                 sinoe_notification_id=sinoe_notification_id,
-                customer_has_bank_id=customer_has_bank_id,
+                customer_id=customer_id,
                 tipo=tipo,
                 identificacion_anexo=identificacion_anexo,
                 numero_paginas=numero_paginas,

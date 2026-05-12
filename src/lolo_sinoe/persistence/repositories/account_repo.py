@@ -167,45 +167,20 @@ class AccountRepository:
             account.cached_session_expires_at = None
             session.commit()
 
-    def get_s3_path_context(self, customer_has_bank_id: int) -> tuple[int, str] | None:
+    def get_s3_path_context(self, customer_id: int) -> tuple[int, str]:
         """Resuelve `(customer_id, client_code)` para construir el S3 key.
 
-        El path SINOE es `CHB/{customer_id}/{chb_id}/{client_code}/...`.
-        Lo necesitamos al subir cada anexo.
+        Post-migration backend 20260512100000, SINOE es customer-scoped — el
+        path SINOE es `CHB/{customer_id}/{client_code}/...` (sin chb_id).
+        El `client_code` es sintético basado en customer_id.
 
-        Cacheado por instancia: el customer_id de un CHB no cambia. Si en
-        algún flow excepcional el CHB se reasignara, reiniciar el server
-        vacía la caché.
-
-        Devuelve `None` si el CHB no existe o no tiene customer asociado.
-        Para SINOE NO sabemos a priori el `client_code` del expediente
-        (la notif podría no estar matched). Por ahora usamos un código
-        sintético basado en CHB; cuando la notif se matchee con un caseFile
-        después, el path queda como histórico — lo importante es que sea
-        único y reproducible.
+        Cacheado por instancia. El customer_id de una cuenta SINOE no
+        cambia, así que la caché es válida indefinidamente.
         """
-        cached = self._s3_ctx_cache.get(customer_has_bank_id)
+        cached = self._s3_ctx_cache.get(customer_id)
         if cached is not None:
             return cached
-        with self._session_factory() as session:
-            row = session.execute(
-                text(
-                    """
-                    SELECT customer_id_customer
-                    FROM CUSTOMER_HAS_BANK
-                    WHERE id_customer_has_bank = :chb
-                    LIMIT 1
-                    """
-                ),
-                {"chb": customer_has_bank_id},
-            ).fetchone()
-            if not row:
-                return None
-            customer_id = int(row[0])
-            # Sintético — el path queda inmutable aunque la notif se
-            # matchee con un caseFile después. Si más adelante queremos
-            # paths matched, el cron de matching puede actualizar.
-            client_code = f"sinoe-chb-{customer_has_bank_id}"
-            ctx = (customer_id, client_code)
-            self._s3_ctx_cache[customer_has_bank_id] = ctx
-            return ctx
+        client_code = f"sinoe-customer-{customer_id}"
+        ctx = (customer_id, client_code)
+        self._s3_ctx_cache[customer_id] = ctx
+        return ctx
